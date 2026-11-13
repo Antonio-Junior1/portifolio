@@ -118,7 +118,7 @@ export const PROJECTS: Project[] = [
     githubUrl: "https://github.com/Antonio-Junior1/nextjs-sprint",
     secondaryGithubUrl: "https://github.com/Antonio-Junior1/api-ia",
     secondaryGithubLabel: "API Python (ML)",
-    demoUrl: "https://challenge-porto-ashy.vercel.app",
+    demoUrl: "https://challenge-porto-demo.vercel.app",
     featured: true,
     highlights: [
       "Processamento de linguagem natural com vetorizador TF-IDF e modelo Random Forest treinado (repositório api-ia)",
@@ -145,6 +145,7 @@ export const PROJECTS: Project[] = [
     category: "fullstack",
     tags: ["TypeScript", "React", "Vite", "Node.js", "Express", "Drizzle ORM", "Vitest", "Tailwind CSS"],
     githubUrl: "https://github.com/Antonio-Junior1/qualitypulse",
+    demoUrl: "https://qualitypulse-demo.vercel.app",
     featured: true,
     highlights: [
       "Auditoria multidimensional: Acessibilidade (a11y), Performance, Segurança (CSP, HSTS, HTTPS) e SEO",
@@ -249,6 +250,7 @@ export const PROJECTS: Project[] = [
     category: "fullstack",
     tags: ["TypeScript", "React", "Vite", "Node.js", "RESTful API", "SQLite", "Chart.js", "Tailwind CSS"],
     githubUrl: "https://github.com/Antonio-Junior1/sistema-controle-gastos",
+    demoUrl: "https://controle-gastos-demo.vercel.app",
     featured: false,
     highlights: [
       "Arquitetura desacoplada com frontend e backend independentes e contratos REST bem definidos",
@@ -274,7 +276,7 @@ export const PROJECTS: Project[] = [
     category: "fullstack",
     tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "App Router", "Vercel", "UI/UX"],
     githubUrl: "https://github.com/Antonio-Junior1/Green-Vision",
-    demoUrl: "https://green-vision-gilt.vercel.app",
+    demoUrl: "https://green-vision-demo.vercel.app",
     featured: false,
     highlights: [
       "Aplicação publicada em produção na Vercel com carregamento otimizado e rotas App Router",
