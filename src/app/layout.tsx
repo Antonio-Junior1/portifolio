@@ -28,7 +28,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://antoniojunior.dev"),
+  metadataBase: new URL("https://antoniojr-dev.vercel.app"),
   title: {
     default: "Antônio Junior | Desenvolvedor Full Stack (React, Next.js, .NET, Java & IA)",
     template: "%s | Antônio Junior",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://antoniojunior.dev",
+    url: "https://antoniojr-dev.vercel.app",
     title: "Antônio Junior | Desenvolvedor Full Stack",
     description:
       "Portfólio interativo com simuladores de projetos reais em Next.js, TypeScript, .NET 8, Java Spring Boot, React Native e Inteligência Artificial.",
@@ -104,7 +104,7 @@ export default function RootLayout({
       description: PERSONAL_INFO.headline,
       email: PERSONAL_INFO.email,
       telephone: PERSONAL_INFO.phone,
-      url: "https://antoniojunior.dev",
+      url: "https://antoniojr-dev.vercel.app",
       address: {
         "@type": "PostalAddress",
         addressLocality: "São Paulo",
