@@ -14,10 +14,12 @@ import {
   Sparkles,
   Command,
   User,
-  FileDown
+  FileDown,
+  Cpu,
+  ExternalLink
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
-import { PERSONAL_INFO } from "@/data/portfolioData";
+import { PERSONAL_INFO, PROJECTS, SKILL_CATEGORIES } from "@/data/portfolioData";
 import { useAvatar } from "@/context/AvatarContext";
 
 interface CommandItem {
@@ -26,6 +28,7 @@ interface CommandItem {
   href?: string;
   onClick?: () => void;
   tag?: string;
+  keywords?: string;
   external?: boolean;
 }
 
@@ -60,17 +63,61 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
 
   if (!isOpen) return null;
 
+  const normalizeText = (text: string) =>
+    text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
   const categories: CommandCategory[] = [
+    {
+      category: "Projetos Selecionados (GitHub & Live Demo)",
+      items: PROJECTS.flatMap(project => {
+        const baseItem: CommandItem = {
+          label: project.title,
+          icon: <Code2 className="w-4 h-4 text-blue-600 shrink-0" />,
+          href: project.githubUrl || "#projetos",
+          tag: project.isPrivateRepo
+            ? `Case Privado • ${project.tags.slice(0, 2).join(" • ")}`
+            : project.tags.slice(0, 3).join(" • "),
+          keywords: `${project.subtitle} ${project.description} ${project.tags.join(" ")} ${project.category}`,
+          external: Boolean(project.githubUrl)
+        };
+        if (project.demoUrl) {
+          return [
+            baseItem,
+            {
+              label: `Abrir Live Demo: ${project.title.split("—")[0].trim()}`,
+              icon: <ExternalLink className="w-4 h-4 text-emerald-600 shrink-0" />,
+              href: project.demoUrl,
+              tag: "Deploy Vercel",
+              keywords: `demo online vercel ${project.title} ${project.tags.join(" ")}`,
+              external: true
+            }
+          ];
+        }
+        return [baseItem];
+      })
+    },
     {
       category: "Navegação Rápida",
       items: [
-        { label: "Ver Projetos em Destaque", icon: <Code2 className="w-4 h-4 text-blue-600" />, href: "#projetos" },
-        { label: "Experiência Profissional (BB Central)", icon: <Briefcase className="w-4 h-4 text-cyan-600" />, href: "#experiencia" },
-        { label: "Formação Acadêmica (FIAP)", icon: <GraduationCap className="w-4 h-4 text-indigo-600" />, href: "#formacao" },
-        { label: "Stack de Tecnologias", icon: <Sparkles className="w-4 h-4 text-emerald-600" />, href: "#tecnologias" },
-        { label: "Como Eu Trabalho (Metodologia)", icon: <Command className="w-4 h-4 text-amber-600" />, href: "#metodologia" },
-        { label: "Entrar em Contato", icon: <Mail className="w-4 h-4 text-rose-600" />, href: "#contato" },
+        { label: "Ver Projetos em Destaque", icon: <Code2 className="w-4 h-4 text-blue-600" />, href: "#projetos", keywords: "portfolio repositorios github codigo" },
+        { label: "Experiência Profissional (BB Central)", icon: <Briefcase className="w-4 h-4 text-cyan-600" />, href: "#experiencia", keywords: "trabalho estagio suporte ti" },
+        { label: "Formação Acadêmica (FIAP)", icon: <GraduationCap className="w-4 h-4 text-indigo-600" />, href: "#formacao", keywords: "faculdade engenharia de software ads" },
+        { label: "Stack de Tecnologias", icon: <Sparkles className="w-4 h-4 text-emerald-600" />, href: "#tecnologias", keywords: "skills habilidades competencias" },
+        { label: "Como Eu Trabalho (Metodologia)", icon: <Command className="w-4 h-4 text-amber-600" />, href: "#metodologia", keywords: "soft skills equipe" },
+        { label: "Entrar em Contato", icon: <Mail className="w-4 h-4 text-rose-600" />, href: "#contato", keywords: "mensagem vaga oportunidade" },
       ]
+    },
+    {
+      category: "Competências & Tecnologias (Stack)",
+      items: SKILL_CATEGORIES.flatMap(cat =>
+        cat.skills.map(skill => ({
+          label: `${skill.name}`,
+          icon: <Cpu className="w-4 h-4 text-indigo-600 shrink-0" />,
+          href: "#tecnologias",
+          tag: skill.tag ? `${cat.title} • ${skill.tag}` : cat.title,
+          keywords: `${skill.name} ${cat.title} ${cat.description} ${skill.tag || ""}`
+        }))
+      )
     },
     {
       category: "Ações & Contatos",
@@ -79,11 +126,14 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
           label: "Baixar Currículo em PDF",
           icon: <FileDown className="w-4 h-4 text-blue-600" />,
           href: PERSONAL_INFO.resumeUrl,
+          tag: "PDF",
+          keywords: "cv resume curriculo download",
           external: true
         },
         {
           label: `Alternar Avatar (Ativo: ${avatarLabel})`,
           icon: <User className="w-4 h-4 text-blue-600" />,
+          keywords: "foto 3d personagem imagem",
           onClick: () => {
             toggleAvatarMode();
             onClose();
@@ -92,6 +142,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
         { 
           label: copiedEmail ? "E-mail Copiado com Sucesso!" : "Copiar E-mail: " + PERSONAL_INFO.email, 
           icon: copiedEmail ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4 text-slate-500" />, 
+          keywords: "email gmail contato copiar",
           onClick: () => {
             navigator.clipboard.writeText(PERSONAL_INFO.email);
             setCopiedEmail(true);
@@ -102,30 +153,50 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
           label: "Chamar no WhatsApp", 
           icon: <Phone className="w-4 h-4 text-emerald-600" />, 
           href: PERSONAL_INFO.whatsappUrl, 
+          tag: PERSONAL_INFO.phone,
+          keywords: "telefone celular conversa",
           external: true 
         },
         { 
           label: "Abrir LinkedIn", 
           icon: <LinkedinIcon className="w-4 h-4 text-blue-600" />, 
           href: PERSONAL_INFO.linkedinUrl, 
+          tag: "/in/antoniojr1",
+          keywords: "rede social perfil",
           external: true 
         },
         { 
-          label: "Abrir GitHub (+20 Repositórios)", 
+          label: "Abrir GitHub (21 Repositórios)", 
           icon: <GithubIcon className="w-4 h-4 text-slate-800" />, 
           href: PERSONAL_INFO.githubUrl, 
+          tag: "@Antonio-Junior1",
+          keywords: "git codigo repositorios",
           external: true 
         }
       ]
     }
   ];
 
-  const filteredCategories = categories.map(cat => ({
-    ...cat,
-    items: cat.items.filter(item => 
-      item.label.toLowerCase().includes(query.toLowerCase())
-    )
-  })).filter(cat => cat.items.length > 0);
+  const normalizedQuery = normalizeText(query.trim());
+
+  const filteredCategories = categories
+    .map(cat => {
+      const matchedItems = cat.items.filter(item => {
+        if (!normalizedQuery) {
+          // When query is empty, keep the list concise (hide full 40-skill list until user types)
+          return cat.category !== "Competências & Tecnologias (Stack)";
+        }
+        const searchable = normalizeText(
+          `${item.label} ${item.tag || ""} ${item.keywords || ""}`
+        );
+        return searchable.includes(normalizedQuery);
+      });
+      return {
+        ...cat,
+        items: matchedItems
+      };
+    })
+    .filter(cat => cat.items.length > 0);
 
   return (
     <div 
@@ -159,7 +230,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
         <div className="max-h-[60vh] overflow-y-auto p-3 space-y-4">
           {filteredCategories.length === 0 ? (
             <div className="py-8 text-center text-sm text-slate-400 font-medium">
-              Nenhum resultado encontrado para "{query}"
+              Nenhum resultado encontrado para &ldquo;{query}&rdquo;
             </div>
           ) : (
             filteredCategories.map((cat, idx) => (

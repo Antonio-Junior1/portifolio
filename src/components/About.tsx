@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { 
   GraduationCap, 
   Terminal, 
@@ -8,8 +9,6 @@ import {
   Users, 
   Code2, 
   CheckCircle2, 
-  Sparkles,
-  ArrowRight,
   FileDown
 } from "lucide-react";
 import { useAvatar } from "@/context/AvatarContext";
@@ -24,10 +23,9 @@ export default function About() {
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-14 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-mono mb-4 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-            01 // SOBRE MIM
-          </div>
+          <span className="section-kicker">
+            01 / SOBRE MIM
+          </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 max-w-3xl leading-tight">
             Engenharia de software com <span className="text-blue-600">visão prática e sistêmica</span>
           </h2>
@@ -60,10 +58,14 @@ export default function About() {
                   title={`Avatar atual: ${avatarLabel}. Clique para alternar entre Foto Real e 3D Char!`}
                 >
                   <div className="w-14 h-14 rounded-2xl overflow-hidden ring-2 ring-blue-500/25 group-hover/aboutavatar:ring-blue-600 shadow-2xs transition-all group-hover/aboutavatar:scale-105 bg-white">
-                    <img
+                    <Image
                       src={avatarSrc}
                       alt={PERSONAL_INFO.name}
-                      className="w-full h-full object-cover transition-transform group-hover/aboutavatar:scale-110"
+                      width={56}
+                      height={56}
+                      className={`w-full h-full object-cover transition-transform group-hover/aboutavatar:scale-110 ${
+                        avatarMode === "photo" ? "brightness-110 contrast-105" : ""
+                      }`}
                     />
                   </div>
                   <span className="absolute -bottom-1 -right-1 px-1 py-0.2 rounded-md bg-white border border-slate-200 text-[8px] font-mono shadow-2xs">
@@ -99,7 +101,7 @@ export default function About() {
               </div>
 
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 leading-snug">
-                "Transformo problemas complexos em soluções simples, testáveis e escaláveis."
+                &ldquo;Transformo problemas complexos em soluções simples, testáveis e escaláveis.&rdquo;
               </h3>
 
               <div className="space-y-4 text-slate-600 text-sm leading-relaxed">

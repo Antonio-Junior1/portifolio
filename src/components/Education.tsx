@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { GraduationCap, Award, Calendar, CheckCircle2, Sparkles } from "lucide-react";
+import { GraduationCap, Award, Calendar, CheckCircle2 } from "lucide-react";
 import { EDUCATION, CERTIFICATIONS } from "@/data/portfolioData";
 
 export default function Education() {
@@ -11,10 +11,9 @@ export default function Education() {
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-14 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-mono mb-4 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-            06 // FORMAÇÃO & ESPECIALIZAÇÕES
-          </div>
+          <span className="section-kicker">
+            06 / FORMAÇÃO &amp; ESPECIALIZAÇÕES
+          </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
             Base acadêmica na FIAP & <span className="text-blue-600">especialização contínua</span>
           </h2>
@@ -124,7 +123,7 @@ export default function Education() {
                   Compromisso com o Código
                 </span>
                 <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  "A formação na FIAP dá a profundidade teórica e estrutural necessária; a prática diária de construir aplicações e estudar arquitetura transforma essa base em resultados ágeis para a empresa."
+                  &ldquo;A formação na FIAP dá a profundidade teórica e estrutural necessária; a prática diária de construir aplicações e estudar arquitetura transforma essa base em resultados ágeis para a empresa.&rdquo;
                 </p>
               </div>
             </div>

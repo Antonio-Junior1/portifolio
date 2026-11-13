@@ -8,6 +8,10 @@ export interface Project {
   category: 'all' | 'fullstack' | 'ai' | 'mobile' | 'backend';
   tags: string[];
   githubUrl: string;
+  secondaryGithubUrl?: string;
+  secondaryGithubLabel?: string;
+  isPrivateRepo?: boolean;
+  collaborators?: string[];
   demoUrl?: string;
   featured: boolean;
   highlights: string[];
@@ -75,82 +79,61 @@ export const PERSONAL_INFO = {
 
 export const PROJECTS: Project[] = [
   {
+    id: "proton-flow-totvs",
+    title: "Proton Flow — Inteligência Gerencial & Atas (TOTVS)",
+    subtitle: "Plataforma Corporativa com Transcrição Local (Faster-Whisper), IA On-Premise & Analytics",
+    description: "Plataforma de inteligência gerencial desenvolvida em equipe para a TOTVS, capaz de capturar chamadas corporativas via WebRTC ou arquivos de áudio/vídeo e transformar transcrições em atas automatizadas, planos de ação, análise trimestral de NPS e detecção de clientes em risco.",
+    problemSolved: "Elimina o trabalho manual de registro de reuniões e previne a perda de sinais críticos de gargalos ou insatisfação de clientes, operando 100% em infraestrutura local (Ollama + Faster-Whisper) em conformidade rigorosa com a LGPD.",
+    myRole: "Desenvolvimento do Frontend em React 19 + Vite 8: construção dos componentes da interface analítica, gráficos executivos com Recharts, responsividade completa da plataforma, fluxos de revisão humana (Human-in-the-Loop) e exportação corporativa em DOCX e PDF.",
+    category: "ai",
+    tags: ["React 19", "Vite 8", "Recharts", "Python", "FastAPI", "Faster-Whisper", "Ollama (LLM Local)", "PostgreSQL (JSONB)", "WebRTC", "Docker"],
+    githubUrl: "",
+    isPrivateRepo: true,
+    collaborators: ["Guilherme Roselli (Backend & Arquitetura)", "Lucas Miranda (STT & WebRTC)"],
+    featured: true,
+    highlights: [
+      "Transcrição local otimizada para PT-BR com Faster-Whisper, Silero VAD, FFmpeg e glossário fonético auditável",
+      "IA 100% On-Premise via Ollama (llama3 / qwen2.5:3b) com Reranker calibrado (DPO/RLAIF) e validação Human-in-the-Loop",
+      "Dashboard Executivo Trimestral em Recharts com evolução temporal, urgência de gargalos e NPS médio",
+      "Backend Python FastAPI + Pydantic v2 com persistência híbrida JSONB no PostgreSQL 14+ (psycopg 3) e trilha audit_events"
+    ],
+    architecture: [
+      "Frontend (PWA): React 19, Vite 8, Recharts, Lucide React e exportação em DOCX/PDF (docx & jsPDF)",
+      "Captura & STT: WebRTC / Opus 48 kbps sem bots invasivos + pipeline FFmpeg, PyAV e Faster-Whisper (CTranslate2)",
+      "Backend & Validação: Python 3.10+, FastAPI, Uvicorn e contratos determinísticos em Pydantic v2",
+      "Dados & IA Local: Ollama com detecção automática CPU/GPU e PostgreSQL 14+ com colunas JSONB indexadas"
+    ],
+    gradient: "from-violet-600/20 via-blue-500/10 to-transparent",
+    accentColor: "violet"
+  },
+  {
     id: "challenge-porto",
     title: "Challenge Porto — Diagnóstico Automotivo Inteligente",
-    subtitle: "Plataforma Web com Machine Learning & Chatbot Interativo",
+    subtitle: "Plataforma Web com Machine Learning (Python/Flask) & Chatbot Interativo",
     description: "Solução desenvolvida para a Porto Seguro que transforma a triagem automotiva através de um chat web inteligente. O usuário relata sintomas mecânicos e recebe um diagnóstico preditivo preliminar em tempo real baseado em Machine Learning.",
     problemSolved: "Elimina filas e triagens mecânicas imprecisas ao correlacionar queixas do motorista em linguagem natural com falhas prováveis de componentes, direcionando o segurado diretamente para a oficina ou serviço adequado.",
-    myRole: "Facilitador da equipe e desenvolvedor: atuei na integração do frontend Next.js com a API de predição em Python/Flask, desenvolvimento dos componentes do chat, telas de serviço e módulo CRUD com validação de placas (Mercosul e padrão antigo).",
+    myRole: "Facilitador da equipe e desenvolvedor full-stack: atuei na integração do frontend Next.js com a API de predição em Python/Flask (api-ia), desenvolvimento dos componentes do chat, telas de serviço e módulo CRUD com validação de placas (Mercosul e padrão antigo).",
     category: "ai",
-    tags: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "Python", "Flask", "Scikit-Learn", "Random Forest", "TF-IDF", "IBM Watson"],
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Python", "Flask", "Scikit-Learn", "Random Forest", "TF-IDF", "IBM Watson"],
     githubUrl: "https://github.com/Antonio-Junior1/nextjs-sprint",
+    secondaryGithubUrl: "https://github.com/Antonio-Junior1/api-ia",
+    secondaryGithubLabel: "API Python (ML)",
     demoUrl: "https://challenge-porto-ashy.vercel.app",
     featured: true,
     highlights: [
-      "Processamento de linguagem natural com vetorizador TF-IDF e modelo Random Forest treinado",
-      "Chatbot interativo com respostas dinâmicas e fallback inteligente",
-      "Deploy e integração contínua no Vercel (Next.js) e Render (API de IA)",
-      "Validação robusta de formatos de placas e gerenciamento de cadastros de veículos"
+      "Processamento de linguagem natural com vetorizador TF-IDF e modelo Random Forest treinado (repositório api-ia)",
+      "Chatbot interativo com respostas dinâmicas e integração IBM Watson Assistant",
+      "Deploy e integração contínua na Vercel (Frontend Next.js) e API de IA em Python",
+      "Validação robusta de formatos de placas (Mercosul/antigo) e gerenciamento de cadastros de veículos"
     ],
     architecture: [
-      "Frontend: Next.js 15 (App Router), React 19, Tailwind CSS",
-      "Backend de Predição: Microserviço Flask em Python com CORS configurado",
+      "Frontend (nextjs-sprint): Next.js (App Router), React, TypeScript e Tailwind CSS",
+      "Backend de Predição (api-ia): Microsserviço Flask em Python com modelo serializado (.pkl)",
       "Modelo ML: scikit-learn (Random Forest Classifier + TF-IDF Vectorizer)",
-      "Atendimento: Chat interativo integrado a IBM Watson Assistant"
+      "Atendimento: Chat interativo integrado ao IBM Watson Assistant"
     ],
     gradient: "from-cyan-500/20 via-blue-500/10 to-transparent",
     accentColor: "cyan"
-  },
-  {
-    id: "ai-meeting-insights",
-    title: "Plataforma de Análise & Resumo Executivo de Reuniões com IA",
-    subtitle: "Processamento de Transcrições com LLM & Geração de Planos de Ação",
-    description: "Aplicação inteligente que utiliza Large Language Models (LLMs) para analisar transcrições de reuniões corporativas, sintetizar pontos críticos, gerar resumos executivos objetivos e estruturar planos de ação automatizados com indicadores gerenciais.",
-    problemSolved: "Resolve a perda de tempo e desalinhamento pós-reunião corporativa, automatizando a ata, a matriz de decisões e o acompanhamento de entregas de cada participante em minutos.",
-    myRole: "Engenharia de prompts estruturados, integração com APIs de LLMs, modelagem de dados dos resumos e desenvolvimento de interface analítica com visão executiva e indicadores.",
-    category: "ai",
-    tags: ["Inteligência Artificial", "LLMs", "NLP", "Python", "React", "Next.js", "APIs de IA", "Métricas Executivas"],
-    githubUrl: "https://github.com/Antonio-Junior1",
-    featured: true,
-    highlights: [
-      "Extração inteligente de decisões-chave, riscos levantados e prazos estipulados",
-      "Geração automática de planos de ação (metodologia 5W2H) com atribuição de responsáveis",
-      "Painel gerencial com indicadores de eficiência, tempo de discussão e sentimentos de pauta",
-      "Interface executiva limpa focada em leitura rápida e compartilhamento ágil"
-    ],
-    architecture: [
-      "Camada de IA: Pipelines de orquestração de prompts e chamadas de LLM para sumarização analítica",
-      "Frontend: Aplicação web em React/Next.js com dashboards de indicadores e visualização de atas",
-      "Processamento: Parser de texto para transcrições em lote e estruturação JSON schema"
-    ],
-    gradient: "from-blue-600/20 via-indigo-500/10 to-transparent",
-    accentColor: "blue"
-  },
-  {
-    id: "mobilesecurityx-mottu",
-    title: "MotoSecurityX / MobileMottu",
-    subtitle: "Gestão e Telemetria de Pátios de Motocicletas com API REST & Firebase",
-    description: "Aplicativo móvel multiplataforma desenvolvido para a Mottu voltado à gestão operacional, rastreabilidade e segurança de frotas de motocicletas e pátios de filiais.",
-    problemSolved: "Centraliza o inventário físico de motos em pátios distribuídos, prevenindo extravios, monitorando entrada/saída de veículos e sincronizando dados operacionais em tempo real com o backend corporativo.",
-    myRole: "Liderança e organização das atividades do projeto, consumo e integração da API RESTful desenvolvida em .NET 8 / C# via Axios, autenticação segura com Firebase Auth, suporte a internacionalização (PT/ES) e implementação de tema claro/escuro.",
-    category: "mobile",
-    tags: ["React Native", "Expo", ".NET 8", "C#", "ASP.NET Core", "Firebase Auth", "Firestore", "Axios", "Docker", "i18n"],
-    githubUrl: "https://github.com/Antonio-Junior1/mottuMobile",
-    featured: true,
-    highlights: [
-      "Operações CRUD completas integradas com API RESTful em .NET 8 (Swagger e Data Annotations)",
-      "Autenticação de operadores e armazenamento de pátios em tempo real via Firebase",
-      "Internacionalização completa com suporte a Português e Espanhol (i18n)",
-      "Interface adaptável com alternância dinâmica entre tema claro e escuro"
-    ],
-    architecture: [
-      "Mobile: React Native, Expo, React Navigation (Tabs & Stack), Context API",
-      "Backend Corporativo: .NET 8 API (C#) com endpoints RESTful e containerização Docker",
-      "Nuvem: Google Firebase Authentication e Firestore Database",
-      "Comunicação: Cliente HTTP Axios com interceptors de erro e tratamento de timeouts"
-    ],
-    gradient: "from-sky-500/20 via-teal-500/10 to-transparent",
-    accentColor: "sky"
   },
   {
     id: "qualitypulse",
@@ -158,20 +141,20 @@ export const PROJECTS: Project[] = [
     subtitle: "Diagnóstico Técnico em Acessibilidade, Performance, Segurança e SEO",
     description: "Plataforma completa de auditoria de software que analisa URLs e endpoints de API sob 4 dimensões críticas, calculando um índice global de qualidade com achados priorizados e recomendações acionáveis para o time de engenharia.",
     problemSolved: "Substitui auditorias manuais demoradas por uma análise server-side automatizada com pontuação de releases, permitindo que times acompanhem a evolução da qualidade antes de irem a produção.",
-    myRole: "Desenvolvimento full-stack em TypeScript ponta a ponta: motor de scanner server-side, modelagem relacional com Drizzle ORM, testes automatizados e interface analítica em React com componentes visuais de score.",
+    myRole: "Desenvolvimento full-stack em TypeScript ponta a ponta: motor de scanner server-side, modelagem relacional com Drizzle ORM, testes automatizados com Vitest e interface analítica em React com componentes visuais de score.",
     category: "fullstack",
     tags: ["TypeScript", "React", "Vite", "Node.js", "Express", "Drizzle ORM", "Vitest", "Tailwind CSS"],
     githubUrl: "https://github.com/Antonio-Junior1/qualitypulse",
     featured: true,
     highlights: [
-      "Auditoria multidimensional: Acessibilidade (a11y), Performance, Segurança e SEO",
-      "Arquitetura server-side em Express com Drizzle ORM para persistência de histórico de releases",
+      "Auditoria multidimensional: Acessibilidade (a11y), Performance, Segurança (CSP, HSTS, HTTPS) e SEO",
+      "Arquitetura server-side em Express com Drizzle ORM para persistência e comparação de histórico de releases",
       "Suíte de testes automatizados com Vitest garantindo estabilidade dos motores de cálculo",
       "Interface com gráficos de pontuação e matriz de criticidade dos achados técnicos"
     ],
     architecture: [
       "Frontend: React, TypeScript, Tailwind CSS, Componentes modulares",
-      "Backend: Node.js, Express, TypeScript, arquitetura desacoplada",
+      "Backend: Node.js, Express, TypeScript, scanner server-side desacoplado",
       "Database: Drizzle ORM com migrações tipadas",
       "Qualidade: Vitest para testes unitários e de integração"
     ],
@@ -179,54 +162,133 @@ export const PROJECTS: Project[] = [
     accentColor: "emerald"
   },
   {
+    id: "futurehub",
+    title: "FutureHub — Plataforma de Inovação Gamificada & IA",
+    subtitle: "Ecossistema Mobile (React Native), Backend Java Spring Boot & IA em Python",
+    description: "Plataforma gamificada que conecta profissionais e estudantes através de desafios, ideias e ranking por áreas de conhecimento, utilizando Inteligência Artificial generativa para criar missões personalizadas em tempo real.",
+    problemSolved: "Combate o baixo engajamento em programas de capacitação e inovação corporativa ao transformar o aprendizado contínuo em missões dinâmicas geradas por IA com pontuação e ranking competitivo.",
+    myRole: "Desenvolvimento e integração da arquitetura distribuída conectando o aplicativo móvel em React Native (Expo) à API principal em Java 17 (Spring Boot) e ao microsserviço Python de geração de missões com IA.",
+    category: "ai",
+    tags: ["Java 17", "Spring Boot 3", "React Native", "Expo", "Python", "Flask", "IA Generativa", "Azure SQL", "JWT", "Swagger"],
+    githubUrl: "https://github.com/Antonio-Junior1/FutureHub",
+    featured: true,
+    highlights: [
+      "Arquitetura poliglota integrando App Mobile (Expo), API Corporativa (Spring Boot) e Microsserviço de IA (Python)",
+      "Geração automática e contextualizada de missões gamificadas via API Python integrada a LLMs",
+      "Backend Java 17 com autenticação JWT, persistência em Azure SQL Server / H2 e documentação Swagger UI",
+      "Sistema completo de ranking, submissão de ideias e progressão de usuários por trilha de conhecimento"
+    ],
+    architecture: [
+      "Mobile Frontend: React Native com Expo e gerenciamento de estado reativo",
+      "Core Backend: Java 17, Spring Boot, Spring Security (JWT), Spring Data JPA",
+      "Serviço de IA: API REST em Python/Flask para orquestração de prompts e geração de missões",
+      "Banco de Dados: Azure SQL Server (produção) e H2 Database (ambiente de testes)"
+    ],
+    gradient: "from-blue-600/20 via-indigo-500/10 to-transparent",
+    accentColor: "blue"
+  },
+  {
+    id: "mobilesecurityx-mottu",
+    title: "MotoSecurityX / MobileMottu",
+    subtitle: "Gestão e Telemetria de Pátios de Motocicletas com API REST .NET & Firebase",
+    description: "Aplicativo móvel multiplataforma desenvolvido para a Mottu voltado à gestão operacional, rastreabilidade e segurança de frotas de motocicletas e pátios de filiais.",
+    problemSolved: "Centraliza o inventário físico de motos em pátios distribuídos, prevenindo extravios, monitorando entrada/saída de veículos e sincronizando dados operacionais em tempo real com o backend corporativo.",
+    myRole: "Liderança e organização das atividades do projeto, consumo e integração da API RESTful desenvolvida em .NET 8 / C# via Axios, autenticação segura com Firebase Auth, suporte a internacionalização (PT/ES) e implementação de tema claro/escuro.",
+    category: "mobile",
+    tags: ["React Native", "Expo", ".NET 8", "C#", "ASP.NET Core", "Firebase Auth", "Firestore", "Axios", "i18n"],
+    githubUrl: "https://github.com/Antonio-Junior1/mottuMobile",
+    featured: true,
+    highlights: [
+      "Operações CRUD completas integradas com API RESTful em .NET 8 (Swagger e Data Annotations)",
+      "Autenticação de operadores e armazenamento de pátios em tempo real via Firebase Auth & Firestore",
+      "Internacionalização completa com suporte nativo a Português e Espanhol (i18n)",
+      "Interface adaptável com alternância dinâmica entre tema claro e escuro e notificações push"
+    ],
+    architecture: [
+      "Mobile: React Native, Expo, React Navigation (Tabs & Stack), Context API",
+      "Backend Corporativo: .NET 8 API (C#) com endpoints RESTful documentados via Swagger",
+      "Nuvem: Google Firebase Authentication e Cloud Firestore",
+      "Comunicação: Cliente HTTP Axios com interceptors e tratamento de erros"
+    ],
+    gradient: "from-sky-500/20 via-teal-500/10 to-transparent",
+    accentColor: "sky"
+  },
+  {
+    id: "safe-core-java",
+    title: "SAFE.Core — API de Monitoramento Ambiental & Alertas",
+    subtitle: "Backend Corporativo em Java 17, Spring Boot, Oracle Database & JWT",
+    description: "API RESTful central da solução SAFE.Guard (Global Solution FIAP), responsável por receber, processar e auditar leituras de sensores ambientais, gerando relatórios térmicos regionais e alertas automáticos de risco.",
+    problemSolved: "Garante ingestão confiável e segura de telemetria ambiental para prevenção de desastres, automatizando o disparo de alertas críticos quando leituras ultrapassam limites seguros por região.",
+    myRole: "Desenvolvimento do backend em Java 17 com Spring Boot, modelagem de entidades e relatórios no Oracle Database, implementação de segurança stateless com JWT e documentação interativa no Swagger.",
+    category: "backend",
+    tags: ["Java 17", "Spring Boot", "Spring Data JPA", "Oracle Database", "Spring Security", "JWT", "Swagger / OpenAPI", "Maven"],
+    githubUrl: "https://github.com/Antonio-Junior1/java",
+    featured: true,
+    highlights: [
+      "CRUD completo e seguro de Regiões, Sensores, Leituras de Telemetria e Alertas Ambientais",
+      "Consultas analíticas para cálculo de temperatura média por região e detecção automática de anomalias",
+      "Autenticação e autorização baseadas em tokens JWT (Spring Security) com perfis de acesso",
+      "Documentação OpenAPI / Swagger UI completa para homologação e integração com web e mobile"
+    ],
+    architecture: [
+      "API Core: Java 17 + Spring Boot 3 (Controllers, Services, Repositories, DTOs)",
+      "Persistência: Spring Data JPA integrado ao Oracle Database",
+      "Segurança: Filtro de autenticação stateless via JSON Web Token (JWT)",
+      "Ecossistema: Camada central integrada ao SAFE.Dashboard (Web) e SAFE.App (Mobile)"
+    ],
+    gradient: "from-indigo-500/20 via-blue-500/10 to-transparent",
+    accentColor: "indigo"
+  },
+  {
     id: "sistema-controle-gastos",
     title: "Sistema de Controle de Gastos Residenciais",
-    subtitle: "Aplicação Full-Stack com Backend .NET 8 & Frontend React",
-    description: "Sistema de gestão financeira pessoal e residencial com divisão rigorosa de responsabilidades entre backend corporativo e frontend SPA. Permite cadastros de membros, conciliação de receitas/despesas e balanços consolidados.",
+    subtitle: "Aplicação Full-Stack com Backend RESTful & Frontend React + TypeScript",
+    description: "Sistema de gestão financeira pessoal e residencial com divisão rigorosa de responsabilidades entre backend e frontend SPA. Permite cadastros de membros da família, conciliação de receitas/despesas e balanços consolidados.",
     problemSolved: "Organiza as finanças domésticas de forma centralizada e intuitiva, garantindo precisão matemática no fechamento de contas e visualização clara do saldo familiar em tempo real.",
-    myRole: "Desenvolvimento da API REST em .NET 8 com C#, modelagem relacional de transações, validações de regras contábeis e criação da interface reativa em React com TypeScript.",
+    myRole: "Desenvolvimento full-stack ponta a ponta: construção da API REST, modelagem relacional de transações em SQLite, validações de regras contábeis (como restrição de menores de idade a despesas) e interface reativa em React com TypeScript.",
     category: "fullstack",
-    tags: [".NET 8", "C#", "Entity Framework", "SQLite", "React", "TypeScript", "Vite", "RESTful API"],
+    tags: ["TypeScript", "React", "Vite", "Node.js", "RESTful API", "SQLite", "Chart.js", "Tailwind CSS"],
     githubUrl: "https://github.com/Antonio-Junior1/sistema-controle-gastos",
     featured: false,
     highlights: [
-      "Backend estruturado em .NET 8 com boas práticas de arquitetura e Entity Framework",
-      "Cálculo de balanço consolidado em tempo real com agregação de categorias de receitas e despesas",
-      "Frontend desacoplado consumindo API RESTful com tipagem estrita em TypeScript",
-      "Validação de formulários e tratamento defensivo de erros"
+      "Arquitetura desacoplada com frontend e backend independentes e contratos REST bem definidos",
+      "Cálculo de balanço consolidado em tempo real com agregação de totais de receitas, despesas e saldo líquido",
+      "Regras de negócio estritas validadas no backend (deleção em cascata de transações e validações por idade)",
+      "Interface limpa e responsiva em React + TypeScript com visualização gráfica de indicadores"
     ],
     architecture: [
-      "Backend: .NET 8 / C#, Entity Framework Core, SQLite",
-      "Frontend: React, TypeScript, Vite, Componentes reutilizáveis",
-      "Padrão: Separação de camadas (Controllers, Services, Models)"
+      "Frontend: React, TypeScript, Vite, Componentes reutilizáveis e gráficos interativos",
+      "Backend: API REST estruturada em camadas (Controllers, Services, Models)",
+      "Database: Banco relacional SQLite com integridade referencial"
     ],
     gradient: "from-blue-500/20 via-slate-800/20 to-transparent",
     accentColor: "blue"
   },
   {
-    id: "mobile-tasks-plus",
-    title: "Lista Tarefas Plus & Ecossistema Mobile",
-    subtitle: "Aplicativos React Native com Expo, Firebase Auth & Micro-Animações",
-    description: "Conjunto de aplicações móveis modernas desenvolvidas com React Native e Expo, demonstrando autenticação social (Google + E-mail/Senha via Firebase), persistência no Firestore e microinterações fluidas com a biblioteca Moti.",
-    problemSolved: "Proporciona experiência móvel ultrarrápida para organização de rotinas diárias com sincronização em nuvem e feedback tátil/visual imediato.",
-    myRole: "Arquitetura do app mobile, configuração dos serviços Google Firebase, criação de componentes animados reutilizáveis e otimização do ciclo de vida das telas.",
-    category: "mobile",
-    tags: ["React Native", "Expo", "TypeScript", "Firebase Auth", "Firestore", "Moti", "Vector Icons"],
-    githubUrl: "https://github.com/Antonio-Junior1/CpMobile",
+    id: "green-vision",
+    title: "Green-Vision — Plataforma de Energia Sustentável",
+    subtitle: "Aplicação Web em Next.js, TypeScript & Tailwind CSS com Deploy na Vercel",
+    description: "Plataforma web interativa dedicada à transição energética e sustentabilidade (Global Solution FIAP), apresentando soluções de energia limpa, áreas de cadastro/login, acompanhamento de indicadores e módulo de feedback.",
+    problemSolved: "Conecta consumidores e empresas a iniciativas de energia renovável através de uma experiência digital rápida, educativa e orientada à redução da pegada de carbono.",
+    myRole: "Desenvolvimento frontend da aplicação utilizando Next.js (App Router), estruturação das rotas (Projeto, Indicados, Feedback, Login/Cadastro), componentização em TypeScript e estilização responsiva com Tailwind CSS.",
+    category: "fullstack",
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "App Router", "Vercel", "UI/UX"],
+    githubUrl: "https://github.com/Antonio-Junior1/Green-Vision",
+    demoUrl: "https://green-vision-gilt.vercel.app",
     featured: false,
     highlights: [
-      "Autenticação completa com login Google e credenciais e-mail/senha",
-      "Armazenamento e sincronização em tempo real com Google Cloud Firestore",
-      "Animações suaves de entrada (fade-in e slide) utilizando a biblioteca Moti",
-      "Navegação intuitiva por gestos e design responsivo para diferentes telas"
+      "Aplicação publicada em produção na Vercel com carregamento otimizado e rotas App Router",
+      "Múltiplos fluxos navegáveis: apresentação do Projeto, Indicadores, Feedback, Equipe e Autenticação",
+      "Componentização fortemente tipada em TypeScript (98.3% da base de código)",
+      "Interface responsiva mobile-first construída com Tailwind CSS"
     ],
     architecture: [
-      "Framework: React Native com Expo SDK",
-      "Autenticação & Banco: Firebase Auth & Cloud Firestore",
-      "Animações: Moti & React Native Reanimated"
+      "Framework: Next.js (App Router) com React e TypeScript",
+      "Estilização: Tailwind CSS com design system consistente voltado à sustentabilidade",
+      "Infraestrutura: Deploy contínuo (CI/CD) na Vercel"
     ],
-    gradient: "from-indigo-500/20 via-sky-500/10 to-transparent",
-    accentColor: "indigo"
+    gradient: "from-emerald-500/20 via-teal-500/10 to-transparent",
+    accentColor: "emerald"
   }
 ];
 

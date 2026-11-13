@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { X, ExternalLink, CheckCircle2, Layers, Cpu, Wrench, Sparkles, ArrowRight } from "lucide-react";
+import { X, ExternalLink, CheckCircle2, Layers, Cpu, Wrench, Sparkles, ArrowRight, Lock, Users } from "lucide-react";
 import { GithubIcon } from "@/components/icons/SocialIcons";
 import { Project } from "@/data/portfolioData";
 import { soundManager } from "@/utils/soundEffects";
@@ -68,7 +68,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
         {/* Action Buttons */}
         <div className="mt-6 flex flex-wrap gap-3 pb-6 border-b border-slate-100">
-          {project.githubUrl && (
+          {project.githubUrl ? (
             <a
               href={project.githubUrl}
               target="_blank"
@@ -78,6 +78,23 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             >
               <GithubIcon className="w-4 h-4" />
               <span>Ver Código no GitHub</span>
+            </a>
+          ) : project.isPrivateRepo ? (
+            <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-600 bg-slate-100 border border-slate-200">
+              <Lock className="w-4 h-4 text-slate-500" />
+              <span>Repositório Privado (Demonstração em Entrevista)</span>
+            </div>
+          ) : null}
+          {project.secondaryGithubUrl && (
+            <a
+              href={project.secondaryGithubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => soundManager.playClick()}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition"
+            >
+              <GithubIcon className="w-4 h-4" />
+              <span>Repositório {project.secondaryGithubLabel || "Backend / IA"}</span>
             </a>
           )}
           {project.demoUrl && (
@@ -128,6 +145,26 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <p className="leading-relaxed bg-slate-50 p-4.5 rounded-2xl border border-slate-200 text-slate-800">
                 {project.myRole}
               </p>
+            </div>
+          )}
+
+          {/* Collaborators */}
+          {project.collaborators && project.collaborators.length > 0 && (
+            <div>
+              <h3 className="text-xs uppercase font-mono text-slate-900 tracking-wider mb-2 flex items-center gap-1.5 font-bold">
+                <Users className="w-3.5 h-3.5 text-blue-600" />
+                Desenvolvimento Colaborativo em Equipe
+              </h3>
+              <div className="flex flex-wrap gap-2 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                {project.collaborators.map((collab) => (
+                  <span
+                    key={collab}
+                    className="px-3 py-1.5 rounded-xl text-xs font-medium bg-white text-slate-700 border border-slate-200"
+                  >
+                    {collab}
+                  </span>
+                ))}
+              </div>
             </div>
           )}
 

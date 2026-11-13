@@ -5,14 +5,8 @@ import {
   Briefcase, 
   Calendar, 
   MapPin, 
-  Terminal, 
-  ShieldCheck, 
-  Wrench, 
-  ArrowRight, 
   Sparkles, 
-  CheckCircle2,
-  Cpu,
-  Activity
+  CheckCircle2
 } from "lucide-react";
 import { EXPERIENCE } from "@/data/portfolioData";
 
@@ -23,10 +17,9 @@ export default function Experience() {
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-14 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-mono mb-4 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-            03 // EXPERIÊNCIA PROFISSIONAL
-          </div>
+          <span className="section-kicker">
+            03 / EXPERIÊNCIA PROFISSIONAL
+          </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
             Vivência corporativa & <span className="text-blue-600">engenharia prática</span>
           </h2>
@@ -77,7 +70,7 @@ export default function Experience() {
                   Atribuições & Escopo Corporativo:
                 </span>
                 <p className="text-slate-700 text-sm sm:text-base leading-relaxed bg-white p-5 rounded-2xl border border-slate-200/80">
-                  "{EXPERIENCE.description}"
+                  &ldquo;{EXPERIENCE.description}&rdquo;
                 </p>
               </div>
 

@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <ThemeProvider>
       <AvatarProvider>
-        <div className="relative min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-500/20 selection:text-blue-700 pb-16">
+        <div className="relative min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 flex flex-col selection:bg-blue-500/20 selection:text-blue-700 dark:selection:text-blue-300 pb-16 overflow-x-clip transition-colors duration-300">
           
           {/* Navigation Bar */}
           <Header onOpenCommandPalette={() => setCommandPaletteOpen(true)} />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useSyncExternalStore } from "react";
 
 export type AvatarMode = "photo" | "char";
 
@@ -12,6 +12,27 @@ interface AvatarContextType {
   avatarLabel: string;
 }
 
+const STORAGE_KEY = "portfolio-avatar-mode";
+const CHANGE_EVENT = "portfolio-avatar-mode-change";
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener(CHANGE_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(CHANGE_EVENT, callback);
+  };
+}
+
+function getSnapshot(): AvatarMode {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved === "char" ? "char" : "photo";
+}
+
+function getServerSnapshot(): AvatarMode {
+  return "photo";
+}
+
 const AvatarContext = createContext<AvatarContextType>({
   avatarMode: "photo",
   toggleAvatarMode: () => {},
@@ -21,21 +42,12 @@ const AvatarContext = createContext<AvatarContextType>({
 });
 
 export function AvatarProvider({ children }: { children: React.ReactNode }) {
-  const [avatarMode, setAvatarModeState] = useState<AvatarMode>("photo");
-
-  useEffect(() => {
-    if (typeof localStorage !== "undefined") {
-      const saved = localStorage.getItem("portfolio-avatar-mode") as AvatarMode;
-      if (saved === "photo" || saved === "char") {
-        setAvatarModeState(saved);
-      }
-    }
-  }, []);
+  const avatarMode = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const setAvatarMode = (mode: AvatarMode) => {
-    setAvatarModeState(mode);
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem("portfolio-avatar-mode", mode);
+      localStorage.setItem(STORAGE_KEY, mode);
+      window.dispatchEvent(new Event(CHANGE_EVENT));
     }
   };
 

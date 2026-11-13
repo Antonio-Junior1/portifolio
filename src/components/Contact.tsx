@@ -9,7 +9,6 @@ import {
   Phone, 
   MapPin, 
   ArrowUpRight, 
-  Sparkles,
   CheckCircle2,
   MessageCircle
 } from "lucide-react";
@@ -21,6 +20,14 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [deliveryMode, setDeliveryMode] = useState<"server" | "mailto">("server");
+  const [lastSubmittedData, setLastSubmittedData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
   
   const [formData, setFormData] = useState({
     name: "",
@@ -36,23 +43,58 @@ export default function Contact() {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     soundManager.playClick();
     setIsSubmitting(true);
-    
-    setTimeout(() => {
+    setSubmitError(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        setSubmitError(result.error || "Erro ao enviar a mensagem. Tente pelo WhatsApp.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      setLastSubmittedData(formData);
       setIsSubmitting(false);
       setFormSubmitted(true);
       soundManager.playSuccess();
+
+      if (result.delivery === "mailto" && result.mailtoUrl) {
+        setDeliveryMode("mailto");
+        window.location.href = result.mailtoUrl;
+      } else {
+        setDeliveryMode("server");
+      }
+
       setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 800);
+    } catch {
+      // Fallback directly to mailto if offline or network error
+      const mailtoSubject = encodeURIComponent(`[Portfólio] ${formData.subject}`);
+      const mailtoBody = encodeURIComponent(
+        `Olá Antônio,\n\n${formData.message}\n\n---\nEnviado por: ${formData.name} (${formData.email})`
+      );
+      window.location.href = `mailto:${PERSONAL_INFO.email}?subject=${mailtoSubject}&body=${mailtoBody}`;
+      setLastSubmittedData(formData);
+      setDeliveryMode("mailto");
+      setIsSubmitting(false);
+      setFormSubmitted(true);
+    }
   };
 
   // Generate dynamic WhatsApp link based on input
-  const getDynamicWhatsAppUrl = () => {
+  const getDynamicWhatsAppUrl = (source = formData) => {
     const text = encodeURIComponent(
-      `Olá Antônio, meu nome é ${formData.name || "[Seu Nome]"} e estou entrando em contato sobre: ${formData.subject || "Oportunidade na área de tecnologia"}. ${formData.message ? `Mensagem: ${formData.message}` : ""}`
+      `Olá Antônio, meu nome é ${source.name || "[Seu Nome]"} e estou entrando em contato sobre: ${source.subject || "Oportunidade na área de tecnologia"}. ${source.message ? `Mensagem: ${source.message}` : ""}`
     );
     return `https://wa.me/5511971812005?text=${text}`;
   };
@@ -63,10 +105,9 @@ export default function Contact() {
         
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-mono mb-5 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-            07 // CONTATO & OPORTUNIDADES
-          </div>
+          <span className="section-kicker">
+            07 / CONTATO &amp; OPORTUNIDADES
+          </span>
           <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 mb-5 leading-tight">
             Vamos <span className="text-blue-600">conversar?</span>
           </h2>
@@ -221,20 +262,40 @@ export default function Contact() {
                 <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center animate-in fade-in duration-300">
                   <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto mb-3" />
                   <h4 className="text-lg font-bold text-slate-900 mb-1.5">
-                    Mensagem Recebida com Sucesso!
+                    {deliveryMode === "server"
+                      ? "Mensagem Enviada com Sucesso!"
+                      : "Mensagem Preparada no seu Cliente de E-mail!"}
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
-                    Muito obrigado pelo contato! Retornarei ao seu e-mail o mais breve possível. Se preferir retorno imediato, sinta-se à vontade para me chamar no WhatsApp ou LinkedIn!
+                    {deliveryMode === "server"
+                      ? "Muito obrigado pelo contato! Recebi sua mensagem e retornarei ao seu e-mail o mais breve possível."
+                      : `Abrimos seu aplicativo de e-mail com a mensagem preenchida para ${PERSONAL_INFO.email}. Caso prefira enviar pelo WhatsApp com 1 clique, use o botão abaixo:`}
                   </p>
-                  <button
-                    onClick={() => setFormSubmitted(false)}
-                    className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 transition"
-                  >
-                    Enviar nova mensagem
-                  </button>
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    <a
+                      href={getDynamicWhatsAppUrl(lastSubmittedData)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition shadow-sm"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Enviar também no WhatsApp</span>
+                    </a>
+                    <button
+                      onClick={() => setFormSubmitted(false)}
+                      className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 transition"
+                    >
+                      Escrever nova mensagem
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {submitError && (
+                    <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-medium text-rose-700">
+                      {submitError}
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="name" className="block text-xs font-mono text-slate-700 mb-1.5 font-bold">

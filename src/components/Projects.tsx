@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Sparkles, ArrowUpRight, Filter, Code2, Layers } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "@/components/icons/SocialIcons";
 import { PROJECTS, Project, PERSONAL_INFO } from "@/data/portfolioData";
 import ProjectCard from "./ProjectCard";
@@ -15,7 +15,8 @@ export default function Projects() {
     { id: "all", label: "Todos os Projetos", count: PROJECTS.length },
     { id: "ai", label: "Inteligência Artificial & ML", count: PROJECTS.filter(p => p.category === "ai").length },
     { id: "fullstack", label: "Full Stack & Web", count: PROJECTS.filter(p => p.category === "fullstack").length },
-    { id: "mobile", label: "Mobile & Apps", count: PROJECTS.filter(p => p.category === "mobile").length },
+    { id: "mobile", label: "Mobile & IoT", count: PROJECTS.filter(p => p.category === "mobile").length },
+    { id: "backend", label: "Backend & APIs", count: PROJECTS.filter(p => p.category === "backend").length },
   ];
 
   const filteredProjects = activeCategory === "all" 
@@ -30,15 +31,14 @@ export default function Projects() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 sm:mb-16">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-mono mb-4 font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-              02 // PROJETOS EM DESTAQUE
-            </div>
+            <span className="section-kicker">
+              02 / PROJETOS EM DESTAQUE
+            </span>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-              Projetos de impacto com <span className="text-blue-600">código aberto</span>
+              Projetos de impacto e <span className="text-blue-600">cases corporativos</span>
             </h2>
             <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-2xl leading-relaxed">
-              Soluções reais selecionadas diretamente do meu GitHub, cobrindo inteligência artificial, aplicações corporativas full-stack e apps móveis.
+              Soluções reais do meu GitHub (públicos e colaborativos em equipe), cobrindo inteligência artificial, plataformas full-stack, APIs e apps móveis.
             </p>
           </div>
 
@@ -82,8 +82,8 @@ export default function Projects() {
           })}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Projects Grid with Brittany Chiang-inspired focus fade */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:[&:has(>div:hover)>div:not(:hover)]:opacity-70">
           {filteredProjects.map((project) => (
             <ProjectCard
               key={project.id}

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #f8fafc;
@@ -13,18 +14,23 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: light !important;
 }
 
 body {
-  background-color: #f8fafc !important;
-  color: #0f172a !important;
+  background-color: #f8fafc;
+  color: #0f172a;
   font-family: var(--font-sans);
   overflow-x: hidden;
   min-height: 100vh;
   letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html.dark body {
+  background-color: #020617;
+  color: #f1f5f9;
 }
 
 /* Custom modern scrollbar */
@@ -36,10 +42,19 @@ body {
   background: #f1f5f9;
 }
 
+html.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 9999px;
   border: 2px solid #f8fafc;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-color: #020617;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -49,17 +64,184 @@ body {
 /* Crisp Clean Bento Card */
 .light-card {
   position: relative;
-  background: #ffffff !important;
-  border: 1px solid rgba(226, 232, 240, 0.95);
-  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.03), 0 1px 3px 0 rgba(15, 23, 42, 0.02);
   border-radius: 1.5rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease, background-color 0.25s ease;
 }
 
 .light-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(59, 130, 246, 0.45);
-  box-shadow: 0 16px 30px -10px rgba(37, 99, 235, 0.10), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+  border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 14px 28px -12px rgba(37, 99, 235, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+}
+
+html.dark .light-card {
+  background: #0f172a;
+  border-color: rgba(51, 65, 85, 0.7);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+}
+
+html.dark .light-card:hover {
+  border-color: rgba(96, 165, 250, 0.45);
+  box-shadow: 0 18px 34px -12px rgba(37, 99, 235, 0.24), 0 6px 14px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* Architectural dot-grid */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+html.dark .bg-dot-grid {
+  background-image: radial-gradient(rgba(71, 85, 105, 0.25) 1px, transparent 1px);
+}
+
+/* Clean editorial section kicker */
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1d4ed8;
+  margin-bottom: 0.875rem;
+}
+
+html.dark .section-kicker {
+  color: #60a5fa;
+}
+
+/* Semantic Dark Mode surface & typography adaptation (:where keeps specificity low so explicit dark: utilities win) */
+:where(html.dark) .bg-white {
+  background-color: #0f172a !important;
+}
+
+:where(html.dark) .bg-white\/95 {
+  background-color: rgba(15, 23, 42, 0.92) !important;
+}
+
+:where(html.dark) .bg-white\/90 {
+  background-color: rgba(15, 23, 42, 0.88) !important;
+}
+
+:where(html.dark) .bg-slate-50,
+:where(html.dark) .bg-slate-50\/70,
+:where(html.dark) .bg-slate-50\/80,
+:where(html.dark) .bg-slate-50\/90 {
+  background-color: #090e1c !important;
+}
+
+:where(html.dark) .bg-slate-100,
+:where(html.dark) .bg-slate-100\/80,
+:where(html.dark) .bg-slate-200\/60 {
+  background-color: #1e293b !important;
+}
+
+:where(html.dark) .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+:where(html.dark) .text-slate-800 {
+  color: #e2e8f0 !important;
+}
+
+:where(html.dark) .text-slate-700 {
+  color: #cbd5e1 !important;
+}
+
+:where(html.dark) .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+:where(html.dark) .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+:where(html.dark) .border-slate-100 {
+  border-color: rgba(30, 41, 59, 0.9) !important;
+}
+
+:where(html.dark) .border-slate-200,
+:where(html.dark) .border-slate-200\/90,
+:where(html.dark) .border-slate-200\/80,
+:where(html.dark) .border-slate-200\/70,
+:where(html.dark) .border-slate-300\/90 {
+  border-color: rgba(51, 65, 85, 0.75) !important;
+}
+
+:where(html.dark) .bg-blue-50,
+:where(html.dark) .bg-blue-50\/70,
+:where(html.dark) .bg-blue-50\/90,
+:where(html.dark) .bg-blue-50\/60 {
+  background-color: rgba(37, 99, 235, 0.14) !important;
+}
+
+:where(html.dark) .border-blue-200,
+:where(html.dark) .border-blue-200\/80,
+:where(html.dark) .border-blue-100 {
+  border-color: rgba(59, 130, 246, 0.35) !important;
+}
+
+:where(html.dark) .text-blue-700,
+:where(html.dark) .text-blue-800 {
+  color: #60a5fa !important;
+}
+
+:where(html.dark) .text-blue-600 {
+  color: #60a5fa !important;
+}
+
+:where(html.dark) .bg-emerald-50,
+:where(html.dark) .bg-emerald-50\/70 {
+  background-color: rgba(16, 185, 129, 0.14) !important;
+}
+
+:where(html.dark) .border-emerald-200 {
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+:where(html.dark) .text-emerald-700,
+:where(html.dark) .text-emerald-800 {
+  color: #34d399 !important;
+}
+
+:where(html.dark) .bg-violet-50,
+:where(html.dark) .bg-violet-50\/70,
+:where(html.dark) .bg-indigo-50 {
+  background-color: rgba(139, 92, 246, 0.14) !important;
+}
+
+:where(html.dark) .text-violet-700,
+:where(html.dark) .text-indigo-700 {
+  color: #a78bfa !important;
+}
+
+:where(html.dark) .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.14) !important;
+}
+
+:where(html.dark) .text-amber-700,
+:where(html.dark) .text-amber-800 {
+  color: #fbbf24 !important;
+}
+
+:where(html.dark) .bg-rose-50 {
+  background-color: rgba(244, 63, 94, 0.14) !important;
+}
+
+:where(html.dark) .text-rose-700 {
+  color: #fb7185 !important;
+}
+
+:where(html.dark) .shadow-slate-200\/50,
+:where(html.dark) .shadow-slate-300\/50,
+:where(html.dark) .shadow-slate-200\/30 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.55) !important;
 }
 
 /* Interactive Pill & Badge */
@@ -68,7 +250,6 @@ body {
   color: #1d4ed8;
   border: 1px solid #bfdbfe;
 }
-
 
 .badge-cyan {
   background: #f0fdfa;
